@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <form id="form">
+      <input type="email" value="pelado5@web.es" id="email" />
+      <input type="password" value="1234567" id="password" />
+      <button type="submit">To agree</button>
+    </form>
+
+    <script>
+      const form = document.getElementById("form");
+      const password = document.getElementById("password");
+      const email = document.getElementById("email");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          const res = await fetch("http://localhost:8080/api/v1/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email.value,
+              password: password.value,
+            }),
+          });
+          console.log(res.ok, res.status);
+
+          const { token } = await res.json();
+
+          // localStorage.setItem("token", token);
+          // console.log(data);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    </script>
+  </body>
+</html>
